@@ -61,7 +61,7 @@ spec:
       - networkPlugin: azure  
         networkPolicy: azure
         serviceCidr: 10.0.3.0/24 
-        dnsServiceIP: 10.0.3.10  
+        dnsServiceIp: 10.0.3.10  
     subnetIdRef:
       name: node-subnet  
     podSubnetIdRef:
