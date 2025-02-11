@@ -40,6 +40,8 @@ spec:
     dnsPrefix: "aks-cluster-dns"
     privateClusterEnabled: false
     privateClusterPublicFqdnEnabled: true
+    identity:
+      - type: SystemAssigned
     defaultNodePool:
       - name: "workload"
         vmSize: "Standard_B2s"
