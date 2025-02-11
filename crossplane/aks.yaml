@@ -25,6 +25,9 @@ spec:
       - "10.0.0.0/16"
     privateSubnetcidr: "10.0.1.0/24"
     enablePublicAccess: true 
+    minCount: 1
+    maxCount: 2
+    spotMaxPrice: -1 
 ---
 apiVersion: apiextensions.crossplane.io/v1
 kind: FunctionPipelineDefinition
@@ -81,3 +84,6 @@ spec:
       vmSize: ${spec.parameters.nodeSize}
       nodeCount: ${spec.parameters.nodeCount}
       vnetSubnetId: "/subscriptions/{subscription-id}/resourceGroups/${metadata.name}-rg/providers/Microsoft.Network/virtualNetworks/${metadata.name}-vnet/subnets/${metadata.name}-private-subnet"
+      minCount:  ${spec.parameters.minCount}
+      maxCount:  ${spec.parameters.maxCount}
+      spotMaxPrice:  ${spec.parameters.spotMaxPrice}
