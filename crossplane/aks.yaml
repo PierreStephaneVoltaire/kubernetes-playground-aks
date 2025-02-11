@@ -54,14 +54,14 @@ spec:
       azureKeyvaultSecretsProvider:
         enabled: true 
     networkProfile:
-      networkPlugin: azure  
-      networkPolicy: azure
-      serviceCidr: 10.0.3.0/24 
-      dnsServiceIP: 10.0.3.10  
-      subnetIdRef:
-        name: node-subnet  
-      podSubnetIdRef:
-        name: pod-subnet 
+      - networkPlugin: azure  
+        networkPolicy: azure
+        serviceCidr: 10.0.3.0/24 
+        dnsServiceIP: 10.0.3.10  
+    subnetIdRef:
+      name: node-subnet  
+    podSubnetIdRef:
+      name: pod-subnet 
     identity:
       - type: SystemAssigned
     defaultNodePool:
