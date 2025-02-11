@@ -48,8 +48,14 @@ spec:
     resourceGroupName: aks-cluster-rg
     location: "canadacentral"
     dnsPrefix: "aks-cluster-dns"
+    addonProfiles:
+      azurepolicy:
+        enabled: true
+      azureKeyvaultSecretsProvider:
+        enabled: true 
     networkProfile:
       networkPlugin: azure  
+      networkPolicy: azure
       serviceCidr: 10.0.3.0/24 
       dnsServiceIP: 10.0.3.10  
       subnetIdRef:
