@@ -25,7 +25,8 @@ spec:
   forProvider:
     resourceGroupName: aks-cluster-rg
     virtualNetworkName: aks-cluster-vnet
-    addressPrefixes:  "10.0.1.0/24"
+    addressPrefixes: 
+      - "10.0.1.0/24"
     enforcePrivateLinkServiceNetworkPolicies: false
 ---
 apiVersion: containerservice.azure.upbound.io/v1beta1
