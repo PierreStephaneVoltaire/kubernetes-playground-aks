@@ -17,7 +17,7 @@ spec:
     addressSpace: 
       - "10.0.0.0/16"
 ---
-apiVersion: network.azure.crossplane.io/v1beta1
+apiVersion: network.azure.upbound.io/v1beta1
 kind: Subnet
 metadata:
   name: node-subnet
@@ -28,7 +28,7 @@ spec:
       name: aks-cluster-vnet
     addressPrefix: 10.0.1.0/24
 ---
-apiVersion: network.azure.crossplane.io/v1beta1
+apiVersion: network.azure.upbound.io/v1beta1
 kind: Subnet
 metadata:
   name: pod-subnet
