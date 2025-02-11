@@ -37,8 +37,9 @@ spec:
     resourceGroupName: aks-cluster-rg
     location: "canadacentral"
     dnsPrefix: "aks-cluster-dns"
-    apiServerAccessProfile:
-      enablePrivateCluster: false
+    privateClusterEnabled: false
+    privateClusterPublicFqdnEnabled: true
+    
     defaultNodePool:
       name: "workload"
       vmSize: "Standard_B2s"
