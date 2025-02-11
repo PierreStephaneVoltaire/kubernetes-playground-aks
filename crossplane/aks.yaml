@@ -75,5 +75,5 @@ spec:
         upgradeSettings:
           - maxSurge: 10%
         vnetSubnetIdRef: 
-          name: aks-cluster-private-subnet
+          name: node-subnet
         spotMaxPrice: -1 
