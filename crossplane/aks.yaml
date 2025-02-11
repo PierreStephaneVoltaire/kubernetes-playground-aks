@@ -73,7 +73,7 @@ spec:
         vmSize: "Standard_B2s"
         nodeCount: 1
         upgradeSettings:
-          - maxSurge: 10%
+          - maxSurge: 30%
         vnetSubnetIdRef: 
           name: node-subnet
         spotMaxPrice: -1 
