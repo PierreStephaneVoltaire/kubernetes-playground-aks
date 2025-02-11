@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: aks
+  namespace: argocd
+spec:
+  project: azure
+  source:
+    repoURL: https://github.com/PierreStephaneVoltaire/kubernetes-playground-aks
+    targetRevision: master
+    path: crossplane
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: crossplane-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
