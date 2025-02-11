@@ -1,89 +1,49 @@
-apiVersion: apiextensions.crossplane.io/v1
-kind: Composition
-metadata:
-  name: aks-playground
-spec:
-  compositeTypeRef:
-    apiVersion: azure.example.org/v1alpha1
-    kind: XAKSCluster
-  mode: Pipeline
-  pipeline:
-    - step: "generate-resources"
-      functionRef:
-        name: go-templating
----
-apiVersion: azure.example.org/v1alpha1
-kind: XAKSCluster
-metadata:
-  name: aks-cluster
-spec:
-  parameters:
-    location: "canadacentral"
-    nodeSize: "Standard_B2s"
-    nodeCount: 1
-    vnetAddressSpace: 
-      - "10.0.0.0/16"
-    privateSubnetcidr: "10.0.1.0/24"
-    enablePublicAccess: true 
-    minCount: 1
-    maxCount: 2
-    spotMaxPrice: -1 
----
-apiVersion: apiextensions.crossplane.io/v1
-kind: FunctionPipelineDefinition
-metadata:
-  name: aks-pipeline
-spec:
-  functions:
-    - name: go-templating
-      container:
-        image: "xpkg.upbound.io/crossplane-contrib/function-go-templating:v0.9.1"
----
 apiVersion: azure.upbound.io/v1beta1
 kind: ResourceGroup
 metadata:
-  name: ${metadata.name}-rg
+  name: aks-cluster-rg
 spec:
   forProvider:
-    location: ${spec.parameters.location}
+    location: "canadacentral"
 ---
 apiVersion: azure.upbound.io/v1beta1
 kind: VirtualNetwork
 metadata:
-  name: ${metadata.name}-vnet
+  name: aks-cluster-vnet
 spec:
   forProvider:
-    resourceGroupName: ${metadata.name}-rg
-    location: ${spec.parameters.location}
-    addressSpace:  ${spec.parameters.vnetAddressSpace}
+    resourceGroupName: aks-cluster-rg
+    location: "canadacentral"
+    addressSpace: 
+      - "10.0.0.0/16"
 ---
 apiVersion: azure.upbound.io/v1beta1
 kind: Subnet
 metadata:
-  name: ${metadata.name}-private-subnet
+  name: aks-cluster-private-subnet
 spec:
   forProvider:
-    resourceGroupName: ${metadata.name}-rg
-    virtualNetworkName: ${metadata.name}-vnet
-    addressPrefix:  ${spec.parameters.privateSubnetcidr}
+    resourceGroupName: aks-cluster-rg
+    virtualNetworkName: aks-cluster-vnet
+    addressPrefix:  "10.0.1.0/24"
     privateLinkServiceNetworkPoliciesEnabled: false
 ---
 apiVersion: azure.upbound.io/v1beta1
 kind: KubernetesCluster
 metadata:
-  name: ${metadata.name}
+  name: aks-cluster
 spec:
   forProvider:
-    resourceGroupName: ${metadata.name}-rg
-    location: ${spec.parameters.location}
-    dnsPrefix: "${metadata.name}-dns"
+    resourceGroupName: aks-cluster-rg
+    location: "canadacentral"
+    dnsPrefix: "aks-cluster-dns"
     apiServerAccessProfile:
-      enablePrivateCluster: ${not(spec.parameters.enablePublicAccess)}  
+      enablePrivateCluster: false
     defaultNodePool:
       name: "workload"
-      vmSize: ${spec.parameters.nodeSize}
-      nodeCount: ${spec.parameters.nodeCount}
-      vnetSubnetId: "/subscriptions/{subscription-id}/resourceGroups/${metadata.name}-rg/providers/Microsoft.Network/virtualNetworks/${metadata.name}-vnet/subnets/${metadata.name}-private-subnet"
-      minCount:  ${spec.parameters.minCount}
-      maxCount:  ${spec.parameters.maxCount}
-      spotMaxPrice:  ${spec.parameters.spotMaxPrice}
+      vmSize: "Standard_B2s"
+      nodeCount: 1
+      vnetSubnetId: "/subscriptions/{subscription-id}/resourceGroups/aks-cluster-rg/providers/Microsoft.Network/virtualNetworks/aks-cluster-vnet/subnets/aks-cluster-private-subnet"
+      minCount: 1
+      maxCount: 2
+      spotMaxPrice: -1 
