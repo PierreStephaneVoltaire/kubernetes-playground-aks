@@ -46,6 +46,4 @@ spec:
         upgradeSettings:
           - maxSurge: 10%
         vnetSubnetId: "/subscriptions/{subscription-id}/resourceGroups/aks-cluster-rg/providers/Microsoft.Network/virtualNetworks/aks-cluster-vnet/subnets/aks-cluster-private-subnet"
-        minCount: 1
-        maxCount: 2
         spotMaxPrice: -1 
